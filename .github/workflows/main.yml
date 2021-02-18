@@ -82,7 +82,7 @@ jobs:
         with:
           name: skim_ggH_log
       - name: test
-        run: python test/test_cutflow_ggH.py
+        run: python tests/test_cutflow_ggH.py
   check_histograms:
      runs-on: ubuntu-latest
      container: rootproject/root-conda:6.18.04
@@ -94,4 +94,4 @@ jobs:
         with:
           name: hist_ggH
       - name: test
-        run: python test_plot_ggH.py
+        run: python tests/test_plot_ggH.py
