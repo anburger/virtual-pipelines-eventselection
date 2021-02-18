@@ -94,8 +94,8 @@ jobs:
         with:
           name: hist_ggH
       - name: setup python
-        uses:  actions/setup-python@v2
-	with:
+        uses: actions/setup-python@v2
+        with:
           python-version: 3.8
       - name: test
         run: python tests/test_plot_ggH.py
