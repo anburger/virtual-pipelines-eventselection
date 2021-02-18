@@ -2,8 +2,8 @@ name: example
 on: 
   push:
     branches: 
-      - master
-      - feature/add-actions
+      - '*'
+
 jobs:
   build_skim:
     runs-on: ubuntu-latest  
