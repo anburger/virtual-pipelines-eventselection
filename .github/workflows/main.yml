@@ -2,8 +2,6 @@ name: example
 on: 
   push:
     branches: 
-    ####- master #this striggers the workflow only on master
-    ####- '!master' #this triggers the workflow on all except master
       - '*' #this triggers the workflow on all branches
 jobs:
   build_skim:
