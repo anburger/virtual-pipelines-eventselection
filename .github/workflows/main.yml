@@ -7,12 +7,15 @@ jobs:
       - run: echo hello world
   build_skim:
     runs-on: ubuntu-latest
-    continue-on-error: true
     container: rootproject/root-conda:${{matrix.version}}
+    continue-on-error: ${{matrix.allow_failure}}
     strategy:
-      fail-fast: false
       matrix:
-        version: [6.18.04, latest]
+        version: [6.18.04]
+	allow_failure: [false]
+	include:
+	  - version: latest
+	    allow_failure
     outputs:
       output1: skim
     steps:
