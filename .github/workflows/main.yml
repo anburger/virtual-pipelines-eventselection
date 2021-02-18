@@ -1,0 +1,101 @@
+name: example
+on: push
+jobs:
+  build_skim:
+    runs-on: ubuntu-latest  
+    container: rootproject/root-conda:6.18.04
+    ####container: rootproject/root-conda:${{matrix.version}}
+   ## continue-on-error: ${{matrix.allow_failure}}
+   ## strategy:
+   ##   matrix:
+    ##    version: [6.18.04]
+    ##    allow_failure: [false]
+   ##     include:
+   ##       - version: latest
+   ##         allow_failure: true
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - name: build
+        run: |
+          COMPILER=$(root-config --cxx)
+          FLAGS=$(root-config --cflags --libs)
+          $COMPILER -g -O3 -Wall -Wextra -Wpedantic -o skim skim.cxx $FLAGS
+      - uses: actions/upload-artifact@v2
+        with: 
+          ##name: skim${{ matrix.version}}
+          name: skim6.18.04
+          path: skim
+  skim:
+    runs-on: ubuntu-latest
+    container: rootproject/root-conda:6.18.04
+    needs: build_skim
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: skim6.18.04
+      - name: access control
+        run: printf ${{ secrets.USER_PASS }} | kinit ${{ secrets.USER_NAME }}@CERN.CH
+      - name: skim
+        run: |
+          chmod +x ./skim
+          ./skim root://eosuser.cern.ch//eos/user/g/gstark/AwesomeWorkshopFeb2020/GluGluToHToTauTau.root skim_ggH.root 19.6 11467.0 0.1  > skim_ggH.log
+      - name: add artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: skim_ggH
+          path: skim_ggH.root
+      - name: add log file
+        uses: actions/upload-artifact@v2
+        with:
+          name: skim_ggH_log
+          path: skim_ggH.log
+
+  plot:
+    runs-on: ubuntu-latest
+    container: rootproject/root-conda:6.18.04
+    needs: skim
+    steps:
+     - name: checkout repository
+       uses: actions/checkout@v2
+     - name: download artifacts
+       uses: actions/download-artifact@v2
+       with:
+         name: skim_ggH
+     - name: plot
+       run: python histograms.py skim_ggH.root ggH hist_ggH.root
+     - name: add artifact
+       uses: actions/upload-artifact@v2
+       with:
+         name: hist_ggH
+         path: hist_ggH.root
+  
+  check_cuflow:
+    runs-on: ubuntu-latest
+    needs: skim
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: skim_ggH_log
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: test
+        run: python tests/test_cutflow_ggH.py
+  check_histograms:
+     runs-on: ubuntu-latest
+     container: rootproject/root-conda:6.18.04
+     needs: plot
+     steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2 
+        with:
+          name: hist_ggH
+      - name: test
+        run: python tests/test_plot_ggH.py
