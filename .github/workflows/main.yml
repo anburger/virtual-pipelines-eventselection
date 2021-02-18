@@ -2,7 +2,8 @@ name: example
 on: 
   push:
     branches: 
-      - '*' #this triggers the workflow on all branches
+      - master
+      - feature/add-actions
 jobs:
   build_skim:
     runs-on: ubuntu-latest  
