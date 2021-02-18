@@ -81,6 +81,10 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: skim_ggH_log
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
       - name: test
         run: python tests/test_cutflow_ggH.py
   check_histograms:
@@ -93,9 +97,5 @@ jobs:
       - uses: actions/download-artifact@v2 
         with:
           name: hist_ggH
-      - name: setup python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
       - name: test
         run: python tests/test_plot_ggH.py
