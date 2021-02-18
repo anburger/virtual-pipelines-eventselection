@@ -49,7 +49,7 @@ jobs:
           path: skim_ggH.root
       - name: add log file
         uses: actions/upload-artifact@v2
-        with
+        with:
           name: skim_ggH_log
           path: skim_ggH.log
 
@@ -83,7 +83,7 @@ jobs:
           name: skim_ggH_log
       - name: test
         run: python test/test_cutflow_ggH.py
-   check_histograms:
+  check_histograms:
      runs-on: ubuntu-latest
      container: rootproject/root-conda:6.18.04
      needs: plot
@@ -95,7 +95,3 @@ jobs:
           name: hist_ggH
       - name: test
         run: python test_plot_ggH.py
-	
-	
-	
-	
