@@ -7,9 +7,9 @@ jobs:
       - run: echo hello world
   build_skim:
     runs-on: ubuntu-latest
-    COMPILER: $(root-config --cxx)
+    COMPILER: root-config --cxx
     outputs:
       output1: skim
     steps:
-      - run: $COMPILER -g -O3 -Wall -Wextra -Wpedantic -o skim skim.cxx
+      - run: COMPILER -g -O3 -Wall -Wextra -Wpedantic -o skim skim.cxx
       
