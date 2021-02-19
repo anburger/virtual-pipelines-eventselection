@@ -76,9 +76,10 @@ jobs:
       - name: cache log files
         uses: actions/cache@v2
         with:
-          path: skim_ggH_log
-          key: skim_ggH.log
-          restore-keys: skim_ggH-
+          path: skim_ggH.log
+          key: ${{ runner.os }}-skim_ggH.log
+          restore-keys: |
+            ${{ runner.os }}-skim_ggH-
 
   check_cuflow:
     runs-on: ubuntu-latest
