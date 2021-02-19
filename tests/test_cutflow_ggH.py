@@ -15,6 +15,7 @@ required_lines = [
    'Event has good muons: pass=813        all=846        -- eff=96.10 % cumulative eff=1.70 %',
    'Valid muon in selected pair: pass=813        all=813        -- eff=100.00 % cumulative eff=1.70 %',
    'Valid tau in selected pair: pass=813        all=813        -- eff=100.00 % cumulative eff=1.70 %',
+   'This is something very random.... '
 ]
 
 print('\n'.join(lines))
