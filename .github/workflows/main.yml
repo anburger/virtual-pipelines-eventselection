@@ -115,5 +115,6 @@ jobs:
       - name: cache log files
         uses: actions/cache@v2
         with:
+          path: .
           key: skim_ggH_log
           restore-keys: skim_ggH_log
