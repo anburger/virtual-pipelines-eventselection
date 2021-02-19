@@ -10,15 +10,6 @@ jobs:
   build_skim:
     runs-on: ubuntu-latest  
     container: rootproject/root-conda:6.18.04
-    ####container: rootproject/root-conda:${{matrix.version}}
-   ## continue-on-error: ${{matrix.allow_failure}}
-   ## strategy:
-   ##   matrix:
-    ##    version: [6.18.04]
-    ##    allow_failure: [false]
-   ##     include:
-   ##       - version: latest
-   ##         allow_failure: true
     steps:
       - name: checkout repository
         uses: actions/checkout@v2
@@ -29,7 +20,6 @@ jobs:
           $COMPILER -g -O3 -Wall -Wextra -Wpedantic -o skim skim.cxx $FLAGS
       - uses: actions/upload-artifact@v2
         with: 
-          ##name: skim${{ matrix.version}}
           name: skim6.18.04
           path: skim
   skim:
@@ -87,8 +77,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: skim_ggH_log
-          key: ${{ runner.os }}-${{ hashFiles('**/skim_ggH.log') }}
-          restore-keys: ${{ runner.os }}-
+          key: ${{ hashFiles('**/skim_ggH.log') }}
+          restore-keys: skim_ggH-
 
   check_cuflow:
     runs-on: ubuntu-latest
