@@ -116,5 +116,5 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ hashFiles('**/skim_ggH.log') }
+          key: ${{ runner.os }}-build-${{ hashFiles('**/skim_ggH.log') }}
           restore-keys: ${{ runner.os }}-
