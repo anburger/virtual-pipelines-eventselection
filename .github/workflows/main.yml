@@ -77,7 +77,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: skim_ggH_log
-          key: ${{ hashFiles('**/skim_ggH.log') }}
+          key: skim_ggH.log
           restore-keys: skim_ggH-
 
   check_cuflow:
